@@ -24,6 +24,7 @@ const Shop = () => {
   let [currentPage, setCurrentPage] = useState(1)
   let [cateFilter,setCateFilter] = useState([])
   let [category,setCategory] = useState([])
+  let [active,setActive] = useState("")
   let lastPage = perPage * currentPage;
   let firstPage = lastPage - perPage
   let allData = info.slice(firstPage, lastPage);
@@ -64,6 +65,11 @@ let handleCategory = (citem) =>{
 let cateFilter = info.filter((item)=> item.category === citem)
  setCateFilter(cateFilter);
 }
+let handleList = () =>{
+  setActive("active")
+}
+console.log(active);
+
   
 
 
@@ -270,7 +276,7 @@ let cateFilter = info.filter((item)=> item.category === citem)
                 <div className="h-[36px] w-[36px] flex justify-center items-center hover:text-white bg-white hover:bg-[#000]">
                   <HiSquares2X2/>
                 </div>
-                <div className="h-[36px] w-[36px] flex justify-center items-center hover:text-white bg-white hover:bg-[#000]">
+                <div onClick={handleList} className="h-[36px] w-[36px] flex justify-center items-center hover:text-white bg-white hover:bg-[#000]">
                   <FaThList/>
                 </div>
               </div>
@@ -303,7 +309,7 @@ let cateFilter = info.filter((item)=> item.category === citem)
                 </form>
               </div>
             </div>
-            <div className="flex flex-wrap justify-between">
+            <div>
               <Page allData = {allData} cateFilter={cateFilter}/>
 
               <Pagination pageNumber={pageNumber} paginate={paginate} currentPage={currentPage} perPage={perPage} info={info} next={next} prev={prev} />
