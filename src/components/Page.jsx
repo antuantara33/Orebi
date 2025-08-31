@@ -97,7 +97,7 @@ let handleLess = ()=>{
  </div>
     : 
   
-    <div className='flex flex-wrap justify-between'>
+    <div className={`${active == "active" ? "w-full" : "flex flex-wrap justify-between"}`}>
         {allData.map((item)=>(
 
           <div className="w-[31%] pb-[50px] ">

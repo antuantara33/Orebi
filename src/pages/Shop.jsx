@@ -23,8 +23,11 @@ const Shop = () => {
   let [perPage, setPerPage] = useState(6)
   let [currentPage, setCurrentPage] = useState(1)
   let [cateFilter,setCateFilter] = useState([])
+  let [brand,setBrand] = useState([])
   let [category,setCategory] = useState([])
   let [active,setActive] = useState("")
+  let [low,setLow] = useState()
+  let [high,setHigh] = useState()
   let lastPage = perPage * currentPage;
   let firstPage = lastPage - perPage
   let allData = info.slice(firstPage, lastPage);
@@ -55,6 +58,7 @@ let prev = () =>{
 }
 useEffect(()=>{
   setCategory([...new Set(info.map((item)=>item.category))])
+  setBrand([...new Set(info.map((item)=>item.brand))])
                 
 
 },[info]);
@@ -68,7 +72,21 @@ let cateFilter = info.filter((item)=> item.category === citem)
 let handleList = () =>{
   setActive("active")
 }
-console.log(active);
+ let handleChange =(e) =>{
+  setPerPage(e.target.value);
+  
+ }
+ let handlePrice =(value) =>{
+  setLow(value.low);
+    setHigh(value.high);
+  let priceShow = info.filter((item)=> item.price >= value.low && item.price <= value.high)
+
+  setCateFilter(priceShow)
+ }
+ let handleBrand =(bitem) =>{
+  let brandFilter=info.filter ((item)=> item.brand == bitem)
+  setCateFilter(brandFilter);
+ }
 
   
 
@@ -223,21 +241,12 @@ console.log(active);
               </h4>
               {letShowOne && (
                 <ul className="mb-[50px]">
-                  <li className="text-[#767676] text-[16px] font-dm pb-[19px] border-b-1 border-[#D8D8D8] font-bold">
-                    Brand 1
+                 {brand.map((item)=>(
+                   <li onClick={()=>handleBrand(item)} className="text-[#767676] text-[16px] font-dm pb-[19px] border-b-1 border-[#D8D8D8] font-bold">
+                    {item}
                   </li>
-                  <li className="text-[#767676] text-[16px] font-dm py-[19px] border-b-1 border-[#D8D8D8] font-bold">
-                    Brand 2
-                  </li>
-                  <li className="text-[#767676] text-[16px] font-dm py-[19px] border-b-1 border-[#D8D8D8] font-bold">
-                    Brand 3
-                  </li>
-                  <li className="text-[#767676] text-[16px] font-dm py-[19px] border-b-1 border-[#D8D8D8] font-bold">
-                    Brand 4
-                  </li>
-                  <li className="text-[#767676] text-[16px] font-dm py-[19px] border-b-1 border-[#D8D8D8] font-bold">
-                    Brand 5
-                  </li>
+                 ))}
+                
                 </ul>
               )}
             </div>
@@ -251,32 +260,25 @@ console.log(active);
               </h4>
               {letShowThree && (
                 <ul>
-                  <li className="text-[#767676] text-[16px] font-dm pb-[19px] border-b-1 border-[#D8D8D8] font-bold">
+                  <li onClick={()=>handlePrice({low:0,high:9})} className="text-[#767676] text-[16px] font-dm pb-[19px] border-b-1 border-[#D8D8D8] font-bold">
                     $0.00 - $9.99
                   </li>
-                  <li className="text-[#767676] text-[16px] font-dm py-[19px] border-b-1 border-[#D8D8D8] font-bold">
+                  <li onClick={()=>handlePrice({low:10,high:19})} className="text-[#767676] text-[16px] font-dm py-[19px] border-b-1 border-[#D8D8D8] font-bold">
                     $10.00 - $19.99
                   </li>
-                  <li className="text-[#767676] text-[16px] font-dm py-[19px] border-b-1 border-[#D8D8D8] font-bold">
-                    $20.00 - $29.99
-                  </li>
-                  <li className="text-[#767676] text-[16px] font-dm py-[19px] border-b-1 border-[#D8D8D8] font-bold">
-                    $30.00 - $39.99
-                  </li>
-                  <li className="text-[#767676] text-[16px] font-dm py-[19px] border-b-1 border-[#D8D8D8] font-bold">
-                    $40.00 - $69.99
-                  </li>
-                </ul>
+               </ul>
               )}
             </div>
           </div>
           <div className="w-9/12 pl-[40px] ">
             <div className="flex pb-[60px]">
               <div className="flex gap-[12px] ">
-                <div className="h-[36px] w-[36px] flex justify-center items-center hover:text-white bg-white hover:bg-[#000]">
+                <div
+                onClick={()=>setActive("")}
+                className={`${active == "active" ? "h-[36px] w-[36px] flex justify-center items-center hover:text-white bg-white hover:bg-[#000]" : "h-[36px] w-[36px] flex justify-center  text-white items-center hover:text-white bg-[#262626] hover:bg-[#000]"}`}>
                   <HiSquares2X2/>
                 </div>
-                <div onClick={handleList} className="h-[36px] w-[36px] flex justify-center items-center hover:text-white bg-white hover:bg-[#000]">
+                <div onClick={handleList} className={`${active == "active" ? "h-[36px] w-[36px]  text-white flex justify-center items-center bg-[#262626] hover:bg-[#000]": "h-[36px] w-[36px] flex justify-center items-center hover:text-white  hover:bg-[#000]" }`}>
                   <FaThList/>
                 </div>
               </div>
@@ -299,20 +301,21 @@ console.log(active);
                 <form className="w-[139px]">
                   <select
                     id="countries"
+                    onChange={handleChange}
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white "
                   >
-                    <option>36</option>
-                    <option>38</option>
-                    <option>40</option>
-                    <option>42</option>
+                    <option>6</option>
+                    <option>9</option>
+                    <option>12</option>
+                    <option>15</option>
                   </select>
                 </form>
               </div>
             </div>
             <div>
-              <Page allData = {allData} cateFilter={cateFilter}/>
+              <Page allData = {allData} cateFilter={cateFilter} active = {active}/>
 
-              <Pagination pageNumber={pageNumber} paginate={paginate} currentPage={currentPage} perPage={perPage} info={info} next={next} prev={prev} />
+              <Pagination pageNumber={pageNumber} paginate={paginate} currentPage={currentPage} perPage={perPage} info={info} next={next} prev={prev} cateFilter={cateFilter} />
             </div>
           </div>
         </div>
