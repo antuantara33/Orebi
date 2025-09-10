@@ -9,6 +9,7 @@ import { FaUser } from "react-icons/fa";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { FaCartArrowDown } from "react-icons/fa";
 import { RxCross2 } from "react-icons/rx";
+import { Link } from 'react-router-dom';
 
 
 const Navbar = () => {
@@ -107,7 +108,9 @@ const Navbar = () => {
                 <IoMdArrowDropdown/>
               </div>
              <div className="" ref={cartRef}>
+            <Link to="/cart">
                <FaCartArrowDown/>
+            </Link>
              </div>
              </div>
 

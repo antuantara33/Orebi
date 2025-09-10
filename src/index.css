@@ -3,6 +3,8 @@
 
 @theme {
     --font-dm:"DM Sans", sans-serif;
+    --color-primary :#262626;
+    --color-secondary :#767676;
     
 }
 #banner .slick-dots .slick-active div {
