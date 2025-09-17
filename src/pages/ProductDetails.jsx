@@ -6,7 +6,7 @@ import productimg from "../assets/pr10.png"
 import { FaStar } from "react-icons/fa";
 import ProducrRating from '../components/ProducrRating'
 import { useDispatch } from 'react-redux'
-import { cartTotal } from '../slice/CartSlice'
+import { cartTotal } from '../slice/cartSlice'
 
 const ProductDetails = () => {
   const dispatch = useDispatch()
@@ -34,7 +34,7 @@ const ProductDetails = () => {
        <Container>
         <div className="pt-[152px] pb-[339px]">
            <div className="flex flex-wrap justify-between gap-5">
-           {singleData?.images.map((img)=>(
+           {singleData?.images?.map((img)=>(
                   <img className='w-[45%]' src={img} alt="" />
             ))}
             </div>
