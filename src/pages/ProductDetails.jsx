@@ -4,8 +4,12 @@ import { useParams } from 'react-router-dom'
 import Container from '../components/Container'
 import productimg from "../assets/pr10.png"
 import { FaStar } from "react-icons/fa";
+import ProducrRating from '../components/ProducrRating'
+import { useDispatch } from 'react-redux'
+import { cartTotal } from '../slice/CartSlice'
 
 const ProductDetails = () => {
+  const dispatch = useDispatch()
  const {id}= useParams()
   let [singleData,setSingleData] = useState({})
 
@@ -18,7 +22,11 @@ const ProductDetails = () => {
   useEffect (()=>{
     getSingleData()
   },[])
-  console.log(singleData);
+  const handleAdd = ()=>{
+    console.log("ok");
+    dispatch(cartTotal(singleData))
+    
+  }
   
   return (
     <div>
@@ -26,29 +34,25 @@ const ProductDetails = () => {
        <Container>
         <div className="pt-[152px] pb-[339px]">
            <div className="flex flex-wrap justify-between gap-5">
-            <img className='w-[45%]' src={productimg} alt="" />
-            <img className='w-[45%]' src={productimg} alt="" />
-             <img className='w-[45%]' src={productimg} alt="" />
-            <img className='w-[45%]' src={productimg} alt="" />
-           </div>
+           {singleData?.images?.map((img)=>(
+                  <img className='w-[45%]' src={img} alt="" />
+            ))}
+            </div>
            <div className="mt-[49px]">
             <h4  className='font-dm text-[39px] font-bold text-primary'>Product</h4>
            </div>
          <div className="flex space-x-[25px] items-center mt-[15px] mb-[21px]">
             <div className='flex text-[#ffd881] items-center gap-x-1'>
-            < FaStar/>
-            < FaStar/>
-            < FaStar/>
-             < FaStar/>
-              < FaStar/>
+         <ProducrRating rating={singleData.rating}/>
            </div>
-           <div className="">
-            <p className='text-[14px] text-secondary'>1 Review</p>
+           <div className="flex space-x-5">
+            <p className='text-[14px] text-secondary'> ({singleData.rating})</p>
+            <p className='text-[14px] text-secondary'>{singleData?.reviews?.length} Review</p>
            </div>
          </div>
          <div className="flex space-x-[22px] items-center">
-          <p className='text-secondary'><del>88.00</del></p>
-          <p className='font-bold text-[20px]'>$44.00</p>
+          <p className='text-secondary'><del>$88.00</del></p>
+          <p className='font-bold text-[20px]'>${singleData.price}</p>
          </div>
          <hr className='w-[780px] text-[#D8D8D8] mt-[24px]'/>
          <div className='flex space-x-[53px] items-center mt-[30px]'>
@@ -86,13 +90,16 @@ const ProductDetails = () => {
 
              <div className='flex space-x-[53px] items-center my-[30px]'>
           <p className='font-bold text-primary'>STATUS:</p>
-          <p className='text-sec'>IN STOCK</p>
+          <p className='text-sec'>{singleData?.availabilityStatus}</p>
           </div>
 
       
           <div className=" space-x-[20px]">
-            <button className='py-4 px-[40px] border-2 border-primary font-bold text-primary hover:bg-primary hover:text-white cursor-pointer transititon duration-200 ease-in-out'>Add to Wish List </button>
-              <button className='py-4 px-[40px] border-2 border-primary font-bold text-primary  hover:bg-primary hover:text-white cursor-pointer transititon duration-200 ease-in-out'>Add to Cart </button>
+            <button 
+            className='py-4 px-[40px] border-2 border-primary font-bold text-primary hover:bg-primary hover:text-white cursor-pointer transititon duration-200 ease-in-out'>Add to Wish List </button>
+              <button
+               onClick={handleAdd}
+              className='py-4 px-[40px] border-2 border-primary font-bold text-primary  hover:bg-primary hover:text-white cursor-pointer transititon duration-200 ease-in-out'>Add to Cart </button>
           </div>
            <hr className='w-[780px] text-[#D8D8D8] mt-[24px]'/>
 
