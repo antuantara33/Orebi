@@ -1,8 +1,15 @@
 import React from 'react'
 import Container from '../components/Container'
-import proimg from "../assets/pr10.png"
+
+import { useSelector } from 'react-redux'
 
 const Cart = () => {
+  const data = useSelector(state => state.cartDetails.cartItems)
+  const handeleIncrement = (item) =>{
+    console.log("item,ok");
+    
+  }
+  
   return (
     <div>
         <Container>
@@ -33,32 +40,41 @@ const Cart = () => {
                 </div>
             </div>     
             
-             <div className='flex justify-between items-center font-dm py-[34px] px-[20px]'>
+          {
+            data.length > 0 ?
+              data?.map((item)=>(
+                   <div className='flex justify-between items-center font-dm py-[34px] px-[20px]'>
                 <div className='w-[25%]'>
                     <div className='flex items-center space-x-2'>
-                      <img className='w-[60px]'src={proimg } alt=""/>
-                      <p>ProductName</p>
+                      <img className='w-[60px]'src={item.thumbnail } alt=""/>
+                      <p>{item.title}</p>
                     </div>
                 </div>
                  <div  className='w-[25%]'>
                     <p  className='font-bold text-primary font-dm'>
-                      $44.00
+                      ${item.price}
                     </p>
                 </div>
                  <div className='w-[25%]'>
                  <div className='flex items-center border-2 border-[#F0F0F0] px-[21px] py-1 space-x-[35px] text-secondary w-fit'>
                  <p>-</p>
-                 <p>1</p>
-                 <p>+</p>
+                 <p>{item.cartQun}</p>
+                 <p className='cursor-pointer'onClick={()=>handeleIncrement(item)}>+</p>
           </div>
                     
                 </div>
                  <div  className='w-[25%]'>
                      <p  className='font-bold text-primary font-dm'>
-                      $44.00
+                      ${item.price * item.cartQun}
                     </p>
                 </div>
             </div>
+
+
+              ))
+              :
+              "no items"
+          }
 
           </div>
         </Container>

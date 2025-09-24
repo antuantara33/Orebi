@@ -6,7 +6,7 @@ import productimg from "../assets/pr10.png"
 import { FaStar } from "react-icons/fa";
 import ProducrRating from '../components/ProducrRating'
 import { useDispatch } from 'react-redux'
-import { cartTotal } from '../slice/cartSlice'
+import { cartTotal } from '../slice/CartSlice'
 
 const ProductDetails = () => {
   const dispatch = useDispatch()
